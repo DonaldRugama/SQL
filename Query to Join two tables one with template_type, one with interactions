@@ -1,0 +1,21 @@
+select
+  campaign_id,
+  c.name,
+  referer,
+  a.template_type as format,
+  geoip_country,
+  count(distinct case when event = 'IMPRESSION' then txn else null end) as impressions,
+  count(distinct case when event = 'CLICK' then txn else null end) as clicks,
+  count(distinct case when event = 'INTERACTION' and i.name = 'VAST_start' then txn else null end) as starts,
+  count(distinct case when event = 'INTERACTION' and i.name = 'VAST_complete' then txn else null end) as completes
+from
+  c_f_rat rat join
+  d_campaign c on rat.campaign_id = c.campaign_agid join
+  (select * from c_d_ad_unit where load_hour = current_date) a on rat.ad_unit_id = a.ad_unit_agid left outer join
+  (select * from c_d_ad_unit_interaction where load_hour = current_date) i on rat.ad_unit_id = i.ad_unit_agid and rat.interaction_id = i.ad_unit_interaction_agid
+where
+  event in ('IMPRESSION', 'CLICK', 'INTERACTION') and
+  campaign_id in (8911) and geoip_country = 'France' and
+  dropped = false
+group by 1,2,3,4,5
+having count(distinct case when event = 'IMPRESSION' then txn else null end) > 100;
