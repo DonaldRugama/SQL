@@ -1,0 +1,12 @@
+select
+  name,
+  start_at,
+  end_at,
+  goal_value,
+  charging_amount
+from
+  d_placement
+
+where
+  campaign_agid in (7881) 
+  group by 1,2,3,4,5;
