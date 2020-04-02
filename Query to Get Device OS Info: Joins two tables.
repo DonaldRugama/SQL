@@ -1,0 +1,17 @@
+select
+  campaign_id,
+  placement_id,
+  c.name,
+  device_os,
+  count(distinct case when event = 'IMPRESSION' then txn else null end) as impressions,
+  count(distinct case when event = 'CLICK' then run_event_id else null end) as clicks
+from
+  c_f_rat rat join
+  d_placement c on rat.placement_id = c.placement_agid
+
+where
+  tstamp > current_date and
+  event in ('IMPRESSION', 'CLICK') and
+  campaign_id in (7380) and
+  dropped = false
+group by 1,2,3,4;
