@@ -1,0 +1,14 @@
+select
+  campaign_id,
+  c.name,
+  rtb_win_price,
+  rtb_bid_second_price
+  from 
+  c_f_rat rat join
+  d_placement c on rat.placement_id = c.placement_agid
+ 
+where
+  tstamp between '2018-06-26' and '2018-06-27' and
+  campaign_agid in (7486) and
+  dropped = false
+group by 1,2,3,4
