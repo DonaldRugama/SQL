@@ -1,0 +1,30 @@
+-- This is a comment in SQL.
+/* This is a multiline comment in 
+sql. Executing comments have not effect. */
+
+/*
+	General SQL Structure
+	select (insert dimensions here)
+	from (insert table names here)
+	where (insert filteres here)
+	group by, having, order by clauses which are optional/ depends on the situation.
+*/
+
+select * from campaign_daily_summary; -- Selects all rows from campaign_daily_summary. This is just an example. Do not run this. The # of records is huge.
+
+select sum(ad_impression) from campaign_daily_summary; -- Gets sum of all ad_impressions.
+
+select sum(ad_impression), campaign_id from campaign_daily_summary group by 2; -- Gets sum of all ad_impression broken down by campaign_id.
+
+select sum(ad_impression), campaign_id from campaign_daily_summary where
+timestamp between '2016-10-01 00:00:00' and '2016-10-02 23:59:59' group by 2; -- Considers all rows having timestamp values between the given times.
+
+select sum(clicks), campaign_id from campaign_daily_summary where
+campaign_id = '73721' group by 2; -- Data pulled only for the given campaign_id.
+
+select sum(clicks), campaign_id from campaign_daily_summary where
+campaign_id in ('73721', '45681') group by 2; -- Compares campaign_id against a list of values.
+
+select sum(clicks), campaign_id from campaign_daily_summary where
+(campaign_id = '73721' and timestamp = '2016-10-01 00:00:00' /* Logical Group One */) or
+(campaign_id = '73721' and timestamp = '2016-10-01 00:00:00' /* Logical Group Two */)
