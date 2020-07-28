@@ -1,0 +1,16 @@
+select customer_id,
+case 
+    when (customer_id <= 100) then 'premium'
+	when (customer_id between 100 and 200) then 'plus'
+	else 'Normal'
+
+end 
+FROM customer
+
+
+SELECT
+CASE rental_rate
+    when 0.99 then 1
+	else 0
+END 
+FROM film
