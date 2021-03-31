@@ -1,0 +1,98 @@
+SELECT
+          *
+FROM customer JOIN address ON customer.city_id = address.city_id
+UNION
+SELECT
+          *
+FROM r_customer
+JOIN r_address ON r_customer.city_id = r_address.city_id;
+
+
+
+SELECT
+          customer_name,
+          AVG(total_cost)
+FROM transactions
+
+JOIN customer ON transactions.customer_id = customer.customer_id
+GROUP BY customer_name;
+
+UNION
+
+SELECT
+          customer_name,
+          AVG(cost)
+FROM r_transactions
+
+JOIN r_customer ON r_transactions.customer_id = r_customer.customer_id
+GROUP BY customer_name;
+
+3. Write a query that JOINs customer and address from the store, and JOINs r_customer and r_address from the restaurant. Then UNION ALL the joined tables.
+
+SELECT
+*
+FROM customer 
+LEFT JOIN address ON address.city_id = customer.city_ID
+UNION ALL
+SELECT
+*
+FROM r_customer 
+LEFT JOIN r_address ON r_address.city_id = r_customer.city_ID
+
+
+4. *CHALLENGE* Write a query that JOINs the three tables from both the restaurant and the store. Then, limit the number of columns in each query to customer_id, customer_name, city, and cost. Finally, UNION ALL the results of each together.
+
+SELECT
+customer.customer_id, 
+customer_name, 
+city,
+cost
+FROM customer
+LEFT JOIN transactions ON transactions.customer_id = customer.customer_id
+LEFT JOIN address ON address.city_id = customer.city_id
+UNION ALL
+SELECT
+r_customer.customer_id, 
+customer_name, 
+city,
+cost
+FROM r_customer
+LEFT JOIN r_transactions ON r_transactions.customer_id = r_customer.customer_id
+LEFT JOIN r_address ON r_address.city_id = r_customer.city_id
+
+
+ANSWER
+SELECT
+         customer.customer_id,                                                                                                                
+         customer_name,
+         city,
+         cost
+FROM customer
+JOIN address ON customer.city_id = address.city_id
+JOIN transactions ON customer.customer_id = transactions.customer_id
+UNION ALL
+SELECT
+          r_customer.customer_id,                                                                                                            
+          customer_name,
+          city,
+          cost
+FROM r_customer
+JOIN r_address ON r_customer.city_id = r_address.city_id
+JOIN r_transactions ON r_customer.customer_id = r_transactions.customer_id;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
