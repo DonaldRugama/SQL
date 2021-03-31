@@ -1,0 +1,84 @@
+-- E1. Lets JOIN the tables and make sure the query runs correctly 
+SELECT
+	*
+FROM manager
+LEFT JOIN company ON manager.manager_id = company.manager_id
+LEFT JOIN employees ON company.entry_id = employees.entry_id;
+
+-- E2. Now you can limit the columns to manager_name and COUNT(all)
+-- with GROUP BY manager_name to find the count of employees per manager.
+SELECT
+	manager_name,
+    COUNT(*)
+FROM manager
+LEFT JOIN company ON manager.manager_id = company.manager_id
+LEFT JOIN employees ON company.entry_id = employees.entry_id
+GROUP BY manager_name;
+
+-- Write your queries below. Be sure to write your queries underneath the correct 
+-- question number (the following question numbers correspond with the lab questions).
+-- Remember to always add a semicolon (;) to the end of each query.
+-- -------------------------------------------------------------------------------
+
+-- 1.
+SELECT
+department,
+COUNT(employee_id)
+FROM department
+LEFT JOIN company ON department.department_id = company.department_id
+GROUP BY department;
+-- 2.
+SELECT
+manager.manager_id
+FROM manager
+LEFT JOIN company on manager.manager_id = company.manager_id
+GROUP BY manager.manager_id
+HAVING COUNT(company.employee_id) > 20;
+
+
+SELECT
+department,
+AVG(sick_days)
+FROM department
+JOIN company ON department.department_id = company.department_id
+JOIN employees ON company.employee_id = employees.employee_id
+GROUP BY department;
+
+
+-- 3.  
+
+
+
+-- 4
+SELECT
+COUNT(distinct (zipcode)),
+COUNT(citizen_status)
+FROM address 
+LEFT JOIN employee_info ON address.entry_id = employee_info.entry_id
+WHERE citizen_status = "Eligible NonCitizen"
+
+
+
+-- 5.
+
+ SELECT
+ position,
+ hire_date
+ FROM position
+ JOIN company ON position.position_id = company.position_id
+ JOIN employees ON company.entry_id = employees.entry_id
+ JOIN employee_info ON employees.entry_id = employee_info.entry_id
+ JOIN hire_date ON employee_info.entry_id = hire_date.entry_id
+ ORDER BY hire_date;
+ 
+
+-- 6.
+
+SELECT
+manager_name,
+AVG(vacation_accrued)
+FROM manager
+JOIN company ON manager.manager_id = company.manager_id
+JOIN employees ON company.entry_id = employees.entry_id
+GROUP BY manager_name
+ORDER BY AVG(vacation_accrued);
